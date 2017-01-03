@@ -1,7 +1,7 @@
 //Example for using script_compatiblity.inc
 
 #include <a_samp>
-#include <script_compatiblity>
+#include <script_compatibility>
 
 
 //No need to check for defines!
