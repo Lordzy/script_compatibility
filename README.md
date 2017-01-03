@@ -1,0 +1,2 @@
+# script_compatiblity
+This include allows you to build includes that are compatible with both filterscripts and gamemode without any need for extra defines. You can also run filterscripts as gamemode without any run-time errors using the init/exit callbacks this include provides. In short, you no longer have to check if FILTERSCRIPT is defined or not. This include contains two callbacks which replaces the default Init/Exit callbacks.
