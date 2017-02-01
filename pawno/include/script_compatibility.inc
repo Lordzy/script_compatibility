@@ -1,7 +1,7 @@
 /*
 ________________________________________________________________________________
 
-						script_compatiblity - v1.0
+						script_compatiblity - v1.0.1
 					                By
 								  Lordzy
 
@@ -21,6 +21,17 @@ LICENSE:
       http://mozilla.org/MPL/2.0/.
 
 
+Changelog:
+
+v1.0.1 - 2nd of February, 2017
+
+- No more errors if any of the callback isn't defined by the user. It was first
+meant to display error on purpose since using this include is required only if
+needed to initialize run modes.
+
+v1.0.0 - 1st of January, 2017
+
+- Initial release.
 
 Callbacks:
 public OnScriptInit(); (replaces OnFilterScriptInit and OnGameModeInit)
@@ -65,16 +76,22 @@ stock GetInitMode() {
 	return L_INIT_MODE;
 }
 
-forward OnScriptInit();
-forward OnScriptExit();
+#if defined OnScriptInit
+	forward OnScriptInit();
+#endif
 
+#if defined OnScriptExit
+	forward OnScriptExit();
+#endif
 
 public OnFilterScriptInit() {
 
 	if(!L_INIT_MODE) {
 
 	    L_INIT_MODE = SCRIPT_MODE_FS;
-		OnScriptInit();
+	    #if defined OnScriptInit
+			OnScriptInit();
+		#endif
 	}
 	#if defined L_INIT_ONFS
 	    return L_INIT_ONFS();
@@ -88,7 +105,9 @@ public OnGameModeInit() {
 	if(!L_INIT_MODE) {
 
 	    L_INIT_MODE = SCRIPT_MODE_GM;
-	    OnScriptInit();
+	    #if defined OnScriptInit
+	    	OnScriptInit();
+		#endif
 	}
 	#if defined L_INIT_ONGM
 	    return L_INIT_ONGM();
@@ -99,9 +118,12 @@ public OnGameModeInit() {
 
 public OnFilterScriptExit() {
 
-	if(L_INIT_MODE == SCRIPT_MODE_FS)
-	    OnScriptExit();
+	if(L_INIT_MODE == SCRIPT_MODE_FS) {
 
+		#if defined OnScriptExit
+	    	OnScriptExit();
+		#endif
+	}
 	#if defined L_EXIT_ONFS
 	    return L_EXIT_ONFS();
 	#else
@@ -111,9 +133,12 @@ public OnFilterScriptExit() {
 
 public OnGameModeExit() {
 
-	if(L_INIT_MODE == SCRIPT_MODE_GM)
-	    OnScriptExit();
-
+	if(L_INIT_MODE == SCRIPT_MODE_GM) {
+	
+	    #if defined OnScriptExit
+	    	OnScriptExit();
+		#endif
+	}
 	#if defined L_EXIT_ONGM
 	    return L_EXIT_ONGM();
 	#else
